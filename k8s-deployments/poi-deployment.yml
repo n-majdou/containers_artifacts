@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+  labels:
+    app: poi
+    purpose: openhack-containers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      containers:
+        - name: poi
+          image: registryckv0271.azurecr.io/poi:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: SQL_USER
+              value: sqladmincKv0271
+            - name: SQL_PASSWORD
+              value: ChangeMe12345@@
+            - name: SQL_SERVER
+              value: sqlserverckv0271.database.windows.net
+            - name: SQL_DBNAME
+              value: mydrivingDB
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 200m
+            limits:
+              memory: 128Mi
+              cpu: 400m
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi-service
+spec:
+  selector:
+    app: poi
+  ports:
+    - protocol: TCP
+      port: 80

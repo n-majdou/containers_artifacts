@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userjava
+  labels:
+    app: userjava
+    purpose: openhack-containers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userjava
+  template:
+    metadata:
+      labels:
+        app: userjava
+    spec:
+      containers:
+        - name: userjava
+          image: registryckv0271.azurecr.io/userjava:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: SQL_USER
+              value: sqladmincKv0271
+            - name: SQL_PASSWORD
+              value: ChangeMe12345@@
+            - name: SQL_SERVER
+              value: sqlserverckv0271.database.windows.net
+            - name: SQL_DBNAME
+              value: mydrivingDB
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: userjava-service
+spec:
+  selector:
+    app: userjava
+  ports:
+    - protocol: TCP
+      port: 80

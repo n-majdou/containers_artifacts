@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+  labels:
+    app: tripviewer
+    purpose: openhack-containers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+        - name: tripviewer
+          image: registryckv0271.azurecr.io/tripviewer:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: USERPROFILE_API_ENDPOINT
+              value: http://userprofile:80
+            - name: TRIPS_API_ENDPOINT
+              value: http://trips:80
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 200m
+            limits:
+              memory: 128Mi
+              cpu: 400m
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: tripviewer
+  ports:
+    - protocol: TCP
+      port: 80
