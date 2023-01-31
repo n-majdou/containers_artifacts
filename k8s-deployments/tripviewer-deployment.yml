@@ -23,9 +23,9 @@ spec:
             - containerPort: 80
           env:
             - name: USERPROFILE_API_ENDPOINT
-              value: http://userprofile:80
+              value: "http://userprofile-service:80"
             - name: TRIPS_API_ENDPOINT
-              value: http://trips:80
+              value: "http://trips-service:80"
           resources:
             requests:
               memory: 64Mi
@@ -46,3 +46,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
+      targetPort: 80

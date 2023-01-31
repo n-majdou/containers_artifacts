@@ -23,13 +23,15 @@ spec:
             - containerPort: 80
           env:
             - name: SQL_USER
-              value: sqladmincKv0271
+              value: "sqladmincKv0271"
             - name: SQL_PASSWORD
-              value: ChangeMe12345@@
+              value: "ChangeMe12345@@"
             - name: SQL_SERVER
-              value: sqlserverckv0271.database.windows.net
+              value: "sqlserverckv0271.database.windows.net"
             - name: SQL_DBNAME
-              value: mydrivingDB
+              value: "mydrivingDB"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
           resources:
             requests:
               memory: 64Mi
@@ -49,3 +51,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
+      targetPort: 80
