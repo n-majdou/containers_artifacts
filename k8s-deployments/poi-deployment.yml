@@ -25,8 +25,6 @@ spec:
           env:
             - name: SQL_USER
               value: sqladmincKv0271
-            - name: SQL_PASSWORD
-              value: ChangeMe12345@@
             - name: SQL_SERVER
               value: sqlserverckv0271.database.windows.net
             - name: SQL_DBNAME
@@ -38,6 +36,17 @@ spec:
             limits:
               memory: 128Mi
               cpu: 400m
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: "/secrets"
+              readOnly: true
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "sql-password"
 ---
 
 apiVersion: v1

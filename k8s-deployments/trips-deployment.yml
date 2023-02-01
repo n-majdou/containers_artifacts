@@ -38,6 +38,17 @@ spec:
             limits:
               memory: 128Mi
               cpu: 400m
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: "/secrets"
+              readOnly: true
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "sql-password"
 ---
 
 apiVersion: v1
