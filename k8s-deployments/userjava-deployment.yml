@@ -6,6 +6,7 @@ metadata:
   labels:
     app: userjava
     purpose: openhack-containers
+    role: api
 spec:
   replicas: 1
   selector:
