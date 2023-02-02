@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: tripviewer
-          image: registryckv0271.azurecr.io/tripviewer:latest
+          image: registryckv0271.azurecr.io/tripviewer2:1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
@@ -28,6 +28,10 @@ spec:
               value: "http://userprofile-service.api.svc.cluster.local:80"
             - name: TRIPS_API_ENDPOINT
               value: "http://trips-service.api.svc.cluster.local:80"
+            - name: "WCF_ENDPOINT"
+              value: "http://wcfservice-service.api.svc.cluster.local:80"
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Development"
           resources:
             requests:
               memory: 64Mi
@@ -35,6 +39,8 @@ spec:
             limits:
               memory: 128Mi
               cpu: 400m
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 
 apiVersion: v1

@@ -43,6 +43,8 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "sql-password"
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 
 apiVersion: v1

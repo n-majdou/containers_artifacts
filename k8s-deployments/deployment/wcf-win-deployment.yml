@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wcfservice
+  namespace: api
+  labels:
+    app: wcfservice
+    purpose: openhack-containers
+    role: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wcfservice
+  template:
+    metadata:
+      labels:
+        app: wcfservice
+    spec:
+      containers:
+        - name: wcfservice
+          image: registryckv0271.azurecr.io/wcfservice:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 200m
+            limits:
+              memory: 128Mi
+              cpu: 400m
+      nodeSelector:
+        kubernetes.io/os: windows
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wcfservice-service
+  namespace: api
+spec:
+  selector:
+    app: wcfservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
